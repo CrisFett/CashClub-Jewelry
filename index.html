@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Ca$h Club - Joyería de Segunda Mano</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+
+    <header class="site-header">
+      <h1 class="brand">The Ca$h Club</h1>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="#quienes-somos">Quienes somos</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Carrusel -->
+    <div class="slider" id="slider" aria-roledescription="carrusel" aria-live="polite">
+      <div class="slides" id="slides">
+        <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 3">
+          <img src="joya1.jpeg" alt="Anillo clásico" data-index="0">
+        </div>
+        <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 3">
+          <img src="joya2.jpeg" alt="Collar vintage" data-index="1">
+        </div>
+        <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 3">
+          <img src="joya3.jpeg" alt="Anillo solitario" data-index="2">
+        </div>
+      </div>
+
+      <button class="control prev" id="prev" aria-label="Anterior" type="button">&#10094;</button>
+      <button class="control next" id="next" aria-label="Siguiente" type="button">&#10095;</button>
+
+      <div class="caption-container" aria-hidden="false">
+        <p id="caption">Anillo clásico — The Ca$h Club <small>Edición seleccionada</small></p>
+      </div>
+
+      <div class="thumbs" id="thumbs" role="tablist" aria-label="Miniaturas">
+        <button class="thumb active" data-index="0" aria-label="Ver anillo clásico" type="button"><img src="joya1.jpeg" alt="Miniatura anillo"></button>
+        <button class="thumb" data-index="1" aria-label="Ver collar vintage" type="button"><img src="joya2.jpeg" alt="Miniatura collar"></button>
+        <button class="thumb" data-index="2" aria-label="Ver anillo solitario" type="button"><img src="joya3.jpeg" alt="Miniatura solitario"></button>
+      </div>
+    </div>
+
+    <main>
+      <section id="quienes-somos" class="seccion">
+        <h2>Quienes somos</h2>
+        <p>Somos una tienda especializada en joyería de segunda mano, seleccionada y restaurada con criterios de calidad y autenticidad. Nuestro objetivo es dar una segunda vida a piezas con historia, ofreciendo transparencia y garantía en cada pieza.</p>
+      </section>
+
+      <section id="productos" class="seccion">
+        <h2 class="seccion-title">Productos destacados</h2>
+        <div class="productos-grid">
+          <article class="tarjeta-producto">
+            <img src="joya3.jpeg" alt="Anillo Esmeralda">
+            <h3>Anillo Esmeralda Clásico</h3>
+            <p>Plata fina con esmeralda real. Restaurado y garantizado.</p>
+            <button class="btn-accion" type="button">Ver detalle</button>
+          </article>
+
+          <article class="tarjeta-producto">
+            <img src="joya2.jpeg" alt="Pendientes Vintage">
+            <h3>Pendientes Vintage de Oro</h3>
+            <p>Diseño años 80, pulidos y listos para uso.</p>
+            <button class="btn-accion" type="button">Ver detalle</button>
+          </article>
+
+          <article class="tarjeta-producto">
+            <img src="joya1.jpeg" alt="Anillo solitario">
+            <h3>Anillo Solitario</h3>
+            <p>Pieza única, diamante certificado y engaste profesional.</p>
+            <button class="btn-accion" type="button">Ver detalle</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="servicios" class="seccion">
+        <h2>Servicios</h2>
+        <ul>
+          <li>Tasación y valoración profesional</li>
+          <li>Limpieza y restauración especializada</li>
+          <li>Compra y consignación de piezas</li>
+        </ul>
+      </section>
+
+      <section id="contacto" class="seccion">
+        <h2>Contacto</h2>
+        <form action="#" method="POST" class="form-contacto" onsubmit="alert('Formulario de contacto enviado (demo).'); return false;">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" required>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
+
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+
+          <button type="submit" class="btn-accion">Enviar</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> The Ca$h Club — Joyería de segunda mano</p>
+    </footer>
+
+  </div>
+
+  <script>
+  (function(){
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Carousel simple y robusto (usa .is-active en slides apiladas)
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const thumbs = Array.from(document.querySelectorAll('.thumb'));
+    const caption = document.getElementById('caption');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const slidesWrap = document.getElementById('slides');
+    if (!slidesWrap || slides.length === 0) return;
+
+    let current = 0;
+    const texts = [
+      'Anillo clásico — The Ca$h Club',
+      'Collar vintage — Piezas únicas',
+      'Anillo solitario — Edición limitada'
+    ];
+    const AUTOPLAY = 6000;
+    let autoplay = null;
+
+    // Placeholder data URI
+    const placeholder = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="250"><rect width="100%" height="100%" fill="#1b2f27"/><text x="50%" y="50%" fill="#d4af37" font-size="18" font-family="Arial" text-anchor="middle" dominant-baseline="central">Imagen no disponible</text></svg>'
+    );
+
+    // Preload images with fallback (.jpg / .jpeg) and placeholder
+    const images = slides.map(s => s.querySelector('img'));
+
+    function tryAltExt(img){
+      if (img.dataset.triedAlt) return false;
+      const src = img.src || '';
+      if (src.match(/\.jpe?g$/i)) {
+        img.dataset.triedAlt = '1';
+        if (src.endsWith('.jpeg')) img.src = src.replace(/\.jpeg$/i, '.jpg');
+        else img.src = src.replace(/\.jpg$/i, '.jpeg');
+        return true;
+      }
+      return false;
+    }
+
+    function loadImage(img){
+      return new Promise(resolve => {
+        if (!img) return resolve(false);
+        if (img.complete) return resolve(img.naturalWidth > 0);
+        const onLoad = () => { cleanup(); resolve(true); };
+        const onError = () => {
+          cleanup();
+          if (tryAltExt(img)) {
+            // alt extension will trigger load/error again
+            img.addEventListener('load', onLoad, { once: true });
+            img.addEventListener('error', () => { img.src = placeholder; resolve(false); }, { once: true });
+          } else {
+            img.src = placeholder;
+            resolve(false);
+          }
+        };
+        function cleanup(){
+          img.removeEventListener('load', onLoad);
+          img.removeEventListener('error', onError);
+        }
+        img.addEventListener('load', onLoad);
+        img.addEventListener('error', onError);
+      });
+    }
+
+    Promise.all(images.map(img => loadImage(img))).finally(() => {
+      // Ensure slidesWrap prepared and show first slide
+      slidesWrap.style.width = '100%';
+      updateUI();
+      startAutoplay();
+    });
+
+    function updateUI(){
+      slides.forEach((s, i) => {
+        s.classList.toggle('is-active', i === current);
+      });
+      thumbs.forEach((t, i) => {
+        t.classList.toggle('active', i === current);
+      });
+      const small = caption.querySelector('small');
+      if (small) small.textContent = 'Edición seleccionada';
+      caption.childNodes[0].textContent = texts[current] + ' ';
+    }
+
+    function goTo(i){
+      current = (i + slides.length) % slides.length;
+      updateUI();
+    }
+
+    prevBtn.addEventListener('click', () => { goTo(current - 1); restartAutoplay(); });
+    nextBtn.addEventListener('click', () => { goTo(current + 1); restartAutoplay(); });
+    thumbs.forEach(t => t.addEventListener('click', (e) => {
+      const idx = parseInt(e.currentTarget.dataset.index, 10);
+      if (!Number.isNaN(idx)) { goTo(idx); restartAutoplay(); }
+    }));
+
+    function startAutoplay(){
+      if (autoplay) clearInterval(autoplay);
+      autoplay = setInterval(() => { goTo(current + 1); }, AUTOPLAY);
+    }
+    function restartAutoplay(){
+      if (autoplay) clearInterval(autoplay);
+      autoplay = null;
+      setTimeout(startAutoplay, AUTOPLAY);
+    }
+
+    // Pause on hover/focus
+    const slider = document.getElementById('slider');
+    slider.addEventListener('mouseenter', ()=> { if (autoplay) { clearInterval(autoplay); autoplay = null; } });
+    slider.addEventListener('mouseleave', ()=> { restartAutoplay(); });
+    slider.addEventListener('focusin', ()=> { if (autoplay) { clearInterval(autoplay); autoplay = null; } });
+    slider.addEventListener('focusout', ()=> { restartAutoplay(); });
+
+    // keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { goTo(current - 1); restartAutoplay(); }
+      if (e.key === 'ArrowRight') { goTo(current + 1); restartAutoplay(); }
+    });
+
+    // expose helpers for debugging (optional)
+    window.__carousel = { goTo, startAutoplay, restartAutoplay };
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Ca$h Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login-box.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+    <div class="login-box">
+        <form action="registro.php" method="POST" autocomplete="off">
+            <div class="input-icon-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="usuario" placeholder="Usuario" required>
+            </div>
+            <div class="input-icon-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="correo" placeholder="Correo" required>
+            </div>
+            <div class="input-icon-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" name="numero" placeholder="Teléfono" required>
+            </div>
+            <div class="input-icon-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="contraseña" placeholder="Contraseña" required>
+            </div>
+            <button type="submit">Registrar</button>
+            <a href="index.html" style="display:block;text-align:center;margin-top:12px;color:#16513c;">Volver al login</a>
+        </form>
+    </div>
+</body>
+</html>
